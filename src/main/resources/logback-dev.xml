@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>%date [%thread] %-5level %logger [%L] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--sql日志-->
+    <appender name="APP_SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--活动日志输出路径示例-->
+        <file>/opt/log/operation/sql.log</file>
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!--存档日志示例-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/opt/log/operation/%d{yyyy-MM-dd}/sql.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!--日志大小可自定义-->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--存档天数可自定义-->
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+        <!--统一日志输出格式-->
+        <encoder charset="UTF-8">
+            <pattern>%date [%thread] %-5level %logger [%L] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="SLOW_SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--活动日志输出路径示例-->
+        <file>/opt/log/operation/slow.log</file>
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!--存档日志示例-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/opt/log/operation/%d{yyyy-MM-dd}/slow.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!--日志大小可自定义-->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--存档天数可自定义-->
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+        <!--统一日志输出格式-->
+        <encoder charset="UTF-8">
+            <pattern>%date [%thread] %-5level %logger [%L] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--info日志-->
+    <appender name="APP_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--活动日志输出路径示例-->
+        <file>/opt/log/operation/info.log</file>
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!--存档日志示例-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/opt/log/operation/%d{yyyy-MM-dd}/info.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!--日志大小可自定义-->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--存档天数可自定义-->
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+        <!--统一日志输出格式-->
+        <encoder charset="UTF-8">
+            <pattern>%date [%thread] %-5level %logger [%L] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--ERROR日志-->
+    <appender name="APP_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/opt/log/operation/error.log</file>
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/opt/log/operation/%d{yyyy-MM-dd}/error.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+
+        <encoder charset="UTF-8">
+            <pattern>%date [%thread] %-5level %logger [%L] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--<appender name="CatAppender" class="com.baojia.bike.config.CatLogbackAppender"></appender>-->
+    <logger name="com.cn.mapper" level="DEBUG">
+        <appender-ref ref="APP_SQL"/>
+    </logger>
+    <logger name="com.alibaba.druid.filter.stat.StatFilter" level="DEBUG"  additivity="false">
+        <appender-ref ref="SLOW_SQL"/>
+    </logger>
+    <!--调试模式下可以改为debug-->
+    <root level="info">
+        <!--<appender-ref ref="CatAppender" />-->
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="APP_ERROR"/>
+        <appender-ref ref="APP_INFO"/>
+    </root>
+</configuration>
